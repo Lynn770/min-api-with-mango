@@ -1,5 +1,29 @@
 services:
   webapi:
     build: ./WebApi
+    depends_on:
+      mongodb: 
+        condition: service_healthy
     ports:
-      - "5001:5001"
+      - "80:5001"
+    environment:
+      - DatabaseSettings__ConnectionString=mongodb://gbs:geheim@mongodb:27017
+    
+  mongodb:
+    image: mongo
+    restart: always
+    healthcheck:
+      test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: gbs
+      MONGO_INITDB_ROOT_PASSWORD: geheim
+      
+volumes:
+  mongodb: {}
