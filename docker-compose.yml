@@ -23,7 +23,7 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: gbs
-      MONGO_INITDB_ROOT_PASSWORD: geheim
+      MONGO_INITDB_ROOT_PASSWORD: geheimgit
       
 volumes:
   mongodb: {}
